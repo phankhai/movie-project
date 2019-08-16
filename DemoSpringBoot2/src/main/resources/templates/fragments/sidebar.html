@@ -1,0 +1,56 @@
+<div id="side-bar" xmlns:th="http://www.thymeleaf.org" th:fragment="sidebar">
+    <div class="logo">ADMIN PAGE</div>
+    <ul class="list-group rounded-0">
+        <li class="dashboard">DASHBOARD</li>
+        <li id="active-user">
+            <a th:href="@{/admin/user}">
+                <i class="fa fa-user mr-2"></i> Quản lý thành viên
+            </a>
+        </li>
+        <li id="active-role">
+            <a th:href="@{/admin/role}">
+                <i class="fa fa-book mr-2"></i> Quản lý quyền
+            </a>
+        </li>
+        <li id="active-cineplex">
+            <a th:href="@{/admin/cineplex}">
+                <i class="fa fa-book mr-2"></i> Quản lý Cụm Rạp
+            </a>
+        </li>
+        <li id="active-cinemas">
+            <a th:href="@{/admin/cinemas}">
+                <i class="fa fa-book mr-2"></i> Quản lý Rạp
+            </a>
+        </li>
+        <li id="active-room">
+            <a th:href="@{/admin/room}">
+                <i class="fa fa-book mr-2"></i> Quản lý Phòng
+            </a>
+        </li>
+        <li id="active-film">
+            <a th:href="@{/admin/film}">
+                <i class="fa fa-book mr-2"></i> Quản lý Phim
+            </a>
+        </li>
+        <li id="active-cinema-movie">
+            <a th:href="@{/admin/filmcinema}">
+                <i class="fa fa-book mr-2"></i> Quản lý Phim Cho Rạp
+            </a>
+        </li>
+        <li id="active-cinema-room">
+            <a th:href="@{/admin/roomcinema}">
+                <i class="fa fa-book mr-2"></i> Quản lý Phòng Cho Rạp
+            </a>
+        </li>
+        <li id="active-config">
+            <a href="#">
+                <i class="fa fa-cogs mr-2"></i> Cấu hình hệ thống
+            </a>
+        </li>
+        <li id="active-info">
+            <a href="#">
+                <i class="fa fa-slack mr-2"></i> Thông tin khác
+            </a>
+        </li>
+    </ul>
+</div>

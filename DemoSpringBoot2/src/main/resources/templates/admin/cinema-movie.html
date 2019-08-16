@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+<head>
+    <meta charset="UTF-8">
+    <title>Rạp Và Phim</title>
+</head>
+<body>
+
+<div layout:fragment="content" class="cimema p-3">
+    <span id="alertsuccess"></span>
+    <h3 class="mb-3">Danh sách Rạp</h3>
+    <div class="row">
+        <div class="col-md-8">
+            <a th:href="@{/admin/filmcinema/add}" class="btn btn-primary">Thêm mới</a>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Tìm kiếm...">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2"><i class="fa fa-search"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-bordered table-hover mt-3 text-center">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Hình</th>
+                <th>Phim</th>
+                <th>Tên Rạp</th>
+                <th>#</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="film : ${films}">
+                <td th:text="${filmStat.index + 1}"></td>
+                <td><img th:src="${film.image}" alt="" width="60" height="60"></td>
+                <td><strong th:text="${film.name}"></strong></td>
+                <td>
+                    <ul th:each="cinema : ${film.getCinemaMovies()}">
+                        <li>
+                            <strong th:text="${cinema.getCinema().name}" style="color: #005cbf"></strong>
+                        </li>
+                    </ul>
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>

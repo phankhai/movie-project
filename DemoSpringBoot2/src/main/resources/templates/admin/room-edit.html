@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+<head>
+    <meta charset="UTF-8">
+    <title>Room Update</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <h3 class="mb-4 text-center">Cập Nhật Phòng</h3>
+    <form method="POST" th:action="@{/room/update}" th:object="${roomupdate}">
+        <div class="row">
+            <div class="col-md-6 m-auto">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="form-group">
+                    <label>Tên Phòng</label>
+                    <input type="text" th:field="*{name}" class="form-control" placeholder="name" />
+                    <span th:each="err : ${#fields.errors('name')}" th:text="${err}" style="color:red"></span>
+                </div>
+                <div class="form-group">
+                    <label>Số Lượng Ghế</label>
+                    <input type="number" th:field="*{seatCount}" class="form-control" placeholder="seatCount" />
+                    <span th:each="err : ${#fields.errors('seatCount')}" th:text="${err}" style="color:red"></span>
+                </div>
+                <div class="form-group">
+                    <label>Chọn Chi Nhánh Rạp</label>
+                    <select th:field="*{cinemaId}" class="form-control">
+                        <span th:each="cineplex : ${cineplexs}">
+                            <optgroup th:label="${cineplex.name}">
+                                <span th:each="cinema : ${cineplex.getCinemas()}">
+                                    <option th:value="${cinema.id}" th:text="${cinema.name}" />
+                                </span>
+                             </optgroup>
+                        </span>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Lưu lại</button>
+                    <a class="btn btn-secondary" th:href="@{/room}">Quay lại</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+</body>
+</html>

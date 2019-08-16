@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+<head>
+    <meta charset="UTF-8">
+    <title>Room Add</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <th:block th:if="${errors != null}">
+        <div class="alert alert-danger text-center" style="width: 50%;margin:auto">
+            <th:block  th:each="error : ${errors}">
+                <strong th:text="${error}" style="font-size: 14px"></strong><br/>
+            </th:block>
+        </div>
+    </th:block>
+    <h3 class="mb-4 text-center">Thêm Phim</h3>
+    <form method="POST" th:action="@{/admin/film/add}" th:object="${filmadd}" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-6 m-auto">
+                <div class="form-group">
+                    <label>Tên Phim</label>
+                    <input type="text" th:field="*{name}" class="form-control" placeholder="name" />
+                    <span th:each="err : ${#fields.errors('name')}" th:text="${err}" style="color:red"></span>
+                </div>
+                <div class="form-group">
+                    <label>Ratting</label>
+                    <input type="number" th:field="*{ratting}" class="form-control" placeholder="ratting" />
+                </div>
+                <div class="form-group">
+                    <label>OpenDate</label>
+                    <input type="date" th:field="*{openDate}" class="form-control" placeholder="openDate" />
+                </div>
+                <div class="form-group">
+                    <label>Mô Tả Phim</label>
+                    <input type="text" th:field="*{description}" class="form-control" placeholder="description" />
+                    <span th:each="err : ${#fields.errors('description')}" th:text="${err}" style="color:red"></span>
+                </div>
+                <div class="form-group" id="img-movie">
+                    <label>Hình</label>
+                    <input type="file" th:field="*{image}" class="form-control" placeholder="image"/>
+                    <img src="" alt="" id="take-img-movie" width="80" height="80"/>
+                </div>
+                <div class="form-group">
+                    <label>Trailer</label>
+                    <input type="file" id="img-upload" th:field="*{trailer}" class="form-control" placeholder="trailer" />
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Lưu lại</button>
+                    <a class="btn btn-secondary" th:href="@{/admin/film}">Quay lại</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+</body>
+</html>

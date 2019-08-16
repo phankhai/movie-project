@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+<head>
+    <meta charset="UTF-8">
+    <title>Cinemas</title>
+</head>
+<body>
+
+<div layout:fragment="content" class="cimema p-3">
+    <h3 class="mb-3">Danh sách Rạp</h3>
+    <div class="row">
+        <div class="col-md-8">
+            <a th:href="@{/admin/cinemas/add}" class="btn btn-primary">Thêm mới</a>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Tìm kiếm...">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2"><i class="fa fa-search"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-bordered table-hover mt-3">
+        <thead>
+        <tr>
+            <th>STT</th>
+            <th>Tên Rạp</th>
+            <th>Địa Chỉ</th>
+            <th>Cụm Rạp</th>
+            <th>#</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${cinemas.empty}">
+            <td colspan="6">Không Có Rạp nào</td>
+        </tr>
+        <tr th:each="cine : ${cinemas}">
+            <td th:text="${cineStat.index + 1}"></td>
+            <td th:text="${cine.name}"></td>
+            <td th:text="${cine.address}"></td>
+            <td th:text="${cine.getCineplex().getName()}"></td>
+            <td>
+                <a th:href="@{/cinemas/update/{id}(id=${cine.id})}" class="btn btn-sm btn-info">
+                    <i class="fa fa-pencil-square-o"></i>
+                </a>
+                <a href="#" class="btn btn-sm btn-danger">
+                    <i class="fa fa-trash-o"></i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>

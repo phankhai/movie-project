@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+<head>
+    <meta charset="UTF-8">
+    <title>Film</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <h3 class="mb-3">Danh sách Phim</h3>
+    <div class="row">
+        <div class="col-md-8">
+            <a th:href="@{/admin/film/add}" class="btn btn-primary">Thêm mới</a>
+            <div th:if="${success}"
+                 class="row alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert"
+                        aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <span th:text="${success}"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Tìm kiếm...">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2"><i class="fa fa-search"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-bordered table-hover mt-3">
+        <thead>
+        <tr>
+            <th>STT</th>
+            <th>Hình</th>
+            <th>Tên Phim</th>
+            <th>Ngày Chiếu</th>
+            <th>#</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${films.empty}">
+            <td colspan="5">Không có phim nào</td>
+        </tr>
+        <tr th:each="film : ${films}">
+            <td th:text="${filmStat.index + 1}"></td>
+            <td>
+                <img th:src="@{{img}(img=${film.image})}" alt="" width="80" height="80" />
+            </td>
+            <td th:text="${film.name}"></td>
+            <td th:text="${film.openDate}"></td>
+            <td>
+                <a th:href="@{/admin/film/update/{id}(id=${film.id})}" class="btn btn-sm btn-info">
+                    <i class="fa fa-pencil-square-o"></i>
+                </a>
+                <a href="#" class="btn btn-sm btn-danger">
+                    <i class="fa fa-trash-o"></i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+</body>
+</html>

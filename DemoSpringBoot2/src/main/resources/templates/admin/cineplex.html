@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+<head>
+    <meta charset="UTF-8">
+    <title>Cineplex</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <h3 class="mb-3">Danh sách Cụm Rạp</h3>
+    <div class="row">
+        <div class="col-md-8">
+            <a th:href="@{/admin/cineplex/add}" class="btn btn-primary">Thêm mới</a>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Tìm kiếm...">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2"><i class="fa fa-search"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-bordered mt-3">
+        <thead>
+        <tr>
+            <th>STT</th>
+            <th>Tên Cụm Rạp</th>
+            <th>Logo</th>
+            <th>#</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${cines.empty}">
+            <td colspan="4">Không Có Cụm Rạp nào</td>
+        </tr>
+        <tr th:each="cine : ${cines}">
+            <td th:text="${cineStat.index + 1}"></td>
+            <td th:text="${cine.name}"></td>
+            <td>
+                <img th:src="@{{logo}(logo=${cine.logo})}" alt="No Image" width="50" height="50">
+            </td>
+            <td>
+                <a th:href="@{/admin/cineplex/update/{id}(id=${cine.id})}" class="btn btn-sm btn-info">
+                    <i class="fa fa-pencil-square-o"></i>
+                </a>
+                <a href="#" class="btn btn-sm btn-danger">
+                    <i class="fa fa-trash-o"></i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>

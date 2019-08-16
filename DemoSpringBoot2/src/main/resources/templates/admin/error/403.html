@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/error-403.css}" />
+    <script th:src="@{/js/error403.js}"></script>
+    <title>Title</title>
+</head>
+<body>
+    <div class="container">
+        <h3 style="color: red">Bạn không có quyền truy cập trang này</h3>
+        <a th:href="@{/admin/logout}" style="color: red">Login</a>
+        <h1>4<div class="lock"><div class="top"></div><div class="bottom"></div>
+        </div>3</h1><p>Access denied</p>
+    </div>
+</body>
+</html>

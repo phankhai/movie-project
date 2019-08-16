@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+<head>
+    <meta charset="UTF-8">
+    <title>Cinema Edit</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <h3 class="mb-4 text-center">Cập Nhật Rạp</h3>
+    <form method="POST" th:action="@{/cinemas/update}" th:object="${cinemaupdate}">
+        <div class="row">
+            <div class="col-md-6 m-auto">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="form-group">
+                    <label>Tên Rạp</label>
+                    <input type="text" th:field="*{name}" class="form-control" placeholder="name" />
+                    <span th:each="err : ${#fields.errors('name')}" th:text="${err}" style="color:red"></span>
+                </div>
+                <div class="form-group">
+                    <label>Mô Tả</label>
+                    <input type="text" th:field="*{description}" class="form-control" placeholder="description" />
+                    <span th:each="err : ${#fields.errors('description')}" th:text="${err}" style="color:red"></span>
+                </div>
+                <div class="form-group">
+                    <label>Địa Chỉ</label>
+                    <input type="text" th:field="*{address}" class="form-control" placeholder="address" />
+                    <span th:each="err : ${#fields.errors('address')}" th:text="${err}" style="color:red"></span>
+                </div>
+                <div class="form-group">
+                    <label>Số Điện Thoại</label>
+                    <input type="text" th:field="*{phone}" class="form-control" placeholder="phone" />
+                    <span th:each="err : ${#fields.errors('phone')}" th:text="${err}" style="color:red"></span>
+                </div>
+                <div class="form-group">
+                    <label>Chọn Cụm Rạp</label>
+                    <select th:field="*{cineplexId}" class="form-control">
+                        <span th:each="cineplex : ${cineplexs}">
+                           <option th:value="${cineplex.id}" th:text="${cineplex.name}" />
+                        </span>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Hình Ảnh</label>
+                    <input type="file" th:field="*{image}" class="form-control" placeholder="image" />
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Lưu lại</button>
+                    <a class="btn btn-secondary" th:href="@{/cinemas}">Quay lại</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+</body>
+</html>

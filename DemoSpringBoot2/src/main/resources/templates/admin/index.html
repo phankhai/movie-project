@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layout/default">
+<head>
+    <meta charset="UTF-8" />
+    <title>Home Page</title>
+</head>
+<body>
+
+
+<div class="row" layout:fragment="content">
+    <div class="col-md-6">
+        <canvas id="myChart" width="400" height="400"></canvas>
+    </div>
+    <div class="col-md-6">
+        <canvas id="myChart2" width="400" height="400"></canvas>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+
+
+<th:block layout:fragment="scripts">
+    <script xmlns:th="http://www.thymeleaf.org" th:src='@{/js/chart.min.js}'></script>
+    <script xmlns:th="http://www.thymeleaf.org" th:src='@{/js/custom-chart.js}'></script>
+</th:block>
+
+
+</body>
+</html>

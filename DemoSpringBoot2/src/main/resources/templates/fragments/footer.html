@@ -1,0 +1,289 @@
+
+
+<script xmlns:th="http://www.thymeleaf.org" th:src="@{/js/jquery.min.js}"></script>
+<script xmlns:th="http://www.thymeleaf.org" th:src="@{/js/popper.min.js}"></script>
+<script xmlns:th="http://www.thymeleaf.org" th:src="@{/js/checkboxjs.js}"></script>
+<script xmlns:th="http://www.thymeleaf.org" th:src="@{/js/bootstrap4.min.js}"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        function activeUrl() {
+            var pathname = window.location.pathname;
+            var res = pathname.split("/");
+            // console.log(res);
+            if(res[2] == "user"){
+                $('#active-user').css({
+                    "background":"#ccc",
+                });
+            }else if(res[2] == "role"){
+                $('#active-role').css({
+                    "background":"#ccc",
+                });
+            }else if(res[2] == "cineplex"){
+                $('#active-cineplex').css({
+                    "background":"#ccc",
+                });
+            }else if(res[2] == "cinemas"){
+                $('#active-cinemas').css({
+                    "background":"#ccc",
+                });
+            }else if(res[2] == "room"){
+                $('#active-room').css({
+                    "background":"#ccc",
+                });
+            }else if(res[2] == "film"){
+                $('#active-film').css({
+                    "background":"#ccc",
+                });
+            }else if(res[2] == "filmcinema"){
+                $('#active-cinema-movie').css({
+                    "background":"#ccc",
+                });
+            }else if(res[2] == "roomcinema"){
+                $('#active-cinema-room').css({
+                    "background":"#ccc",
+                });
+            }
+        }
+
+        $('.cinema-movie-room').each(function () {
+            if($(this).text() == ""){
+                console.log("rỗng");
+            }
+            console.log($(this).text());
+        })
+
+        activeUrl();
+        window.setTimeout(function() {
+            $(".alert").fadeTo(500, 0).slideUp(500, function(){
+                $(this).remove();
+            });
+            localStorage.removeItem("success");
+        }, 3000);
+
+        //Search Thành Viên
+        $('#search-user').keyup(function () {
+            var val_search = $(this).val();
+            
+            $.ajax({
+                url : "http://localhost:8080/api/searchthanhvien",
+                type : "GET",
+                data : {
+                    val_search : val_search
+                },
+                success : function (res) {
+                    console.log(res);
+                    var html = "";
+                    for (var i = 0; i < res.length; i++) {
+                        html += `
+                         <tr>
+                            <td>${i+1}</td>
+                            <td>${res[i].fullname}</td>
+                            <td>${res[i].email}</td>
+                            <td>${res[i].phone}</td>
+                            <td>${res[i].role.name}</td>
+                            <td>
+                                <a href="/user/update/${res[i].id}" class="btn btn-sm btn-info">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-danger">
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
+                            </td>
+                         </tr>
+                        `;
+                    }
+                    $('#danhsachuser').html(html);
+                }
+            })
+        })
+
+        $('#logo').change(function (event) {
+            var file_logo = event.target.files;
+            var file_name = file_logo[0].name;
+            var formData = new FormData();
+            formData.append("file", file_logo[0]);
+            $.ajax({
+                url: "http://localhost:8080/api/file/upload",
+                data: formData,
+                type: "POST",
+                enctype: "mutilpart/form-data",
+                processData: false,
+                contentType: false,
+                success: function () {
+                },
+                complete: function (res) {
+                    $('#img-logo').attr("src","/upload/"+file_name);
+                }
+            })
+        })
+
+        //update hình rạp
+        $('#cinema-img #image').change(function (event) {
+            var file_img = event.target.files;
+            var file_name = file_img[0].name;
+            var formData = new FormData();
+            formData.append("file", file_img[0]);
+            $.ajax({
+                url: "http://localhost:8080/api/file/upload",
+                data: formData,
+                type: "POST",
+                enctype: "mutilpart/form-data",
+                processData: false,
+                contentType: false,
+                success: function () {
+                },
+                complete: function (res) {
+                    $('#take-img-cinema').attr("src", "/upload/" + file_name);
+                }
+            })
+        })
+
+        $('#img-movie #image').change(function (event) {
+            var file_img = event.target.files;
+            var file_name = file_img[0].name;
+            var formData = new FormData();
+            formData.append("file", file_img[0]);
+            $.ajax({
+                url: "http://localhost:8080/api/file/upload",
+                data: formData,
+                type: "POST",
+                enctype: "mutilpart/form-data",
+                processData: false,
+                contentType: false,
+                success: function () {
+                },
+                complete: function (res) {
+                    $('#take-img-movie').attr("src", "/upload/" + file_name);
+                }
+            })
+        })
+
+        $('#submit-cinema-movie').submit(function (e) {
+            e.preventDefault();
+            // console.log("khai");
+            var checkphim = new Array();
+            $('.checkphim input:checked').each(function () {
+                checkphim.push($(this).val());
+            })
+            var checkrap = new Array();
+            $('.checkrap input:checked').each(function () {
+                checkrap.push($(this).val());
+            })
+            var url = "http://localhost:8080/admin/filmcinema/add";
+            $.ajax({
+                url : url,
+                type : $(this).attr("method"),
+                data : {
+                    checkphim : checkphim,
+                    checkrap : checkrap
+                },
+            }).done(function (res) {
+                console.log(res);
+                if(res){
+                    var loadding = "";
+                    loadding += `
+                            <h1 class="text-center">LOADING ...</h1>
+                        `;
+                    $('#admin-content').html(loadding);
+                    setTimeout(function () {
+                        window.location.assign("http://localhost:8080/admin/filmcinema");
+                        localStorage.setItem("success","thêm thành công");
+                    },500)
+                }else {
+                    var html = "";
+                    html += `
+                        <div class="alert alert-danger">
+                            <strong style="font-size: 15px;">* Phim Đã Được Chọn Cho Rạp</strong>
+                        </div>`;
+                    $('#error').html(html);
+                    setTimeout(function () {
+                        $('.alert-danger').fadeTo(500, 0).slideUp(500, function () {
+                            $(this).remove();
+                        });
+                    },2000)
+                }
+            }).fail(function (er) {
+                console.log(er);
+                if(er.status == 400){
+                    var html = "";
+                    html += `
+                        <div class="alert alert-danger">
+                            <strong style="font-size: 15px;">* Vui Lòng Chọn Phim Và Chọn Rạp</strong>
+                        </div>`;
+                    $('#error').html(html);
+                    setTimeout(function () {
+                        $('.alert-danger').fadeTo(500, 0).slideUp(500, function () {
+                            $(this).remove();
+                        });
+                    },2000)
+                }
+            })
+        });
+        if(localStorage.getItem("success") != null){
+            var html = "";
+            html += `
+                <div class="alert alert-success">
+                    <strong>Thêm Thành Công</strong>
+                </div>`;
+            $('#alertsuccess').html(html);
+        }
+
+        //CHECKBOX PHÒNG CHO RẠP
+        $('#submit-cinema-room').submit(function (e) {
+            e.preventDefault();
+            var checkphim = new Array();
+            $('.checkmovie input:checked').each(function () {
+                checkphim.push($(this).val());
+            })
+            var checkphong = new Array();
+            $('.checkroom input:checked').each(function () {
+                checkphong.push($(this).val());
+            })
+
+            var url = "http://localhost:8080/admin/roomcinema/add";
+
+            $.ajax({
+                url : url,
+                type : $(this).attr("method"),
+                data : {
+                    checkphim : checkphim,
+                    checkphong : checkphong
+                }
+            }).done(function (res) {
+                console.log(res);
+                if(res == "true") {
+                    var loadding = "";
+                    loadding += `
+                            <h1 class="text-center">LOADING ...</h1>
+                        `;
+                    $('#admin-content').html(loadding);
+                    setTimeout(function () {
+                        window.location.assign("http://localhost:8080/admin/roomcinema");
+                        localStorage.setItem("success", "thêm thành công");
+                    }, 500)
+                }else {
+                    var html = "";
+                    html += `
+                        <div class="alert alert-danger">
+                            <strong style="font-size: 15px;">* Phim Đã Được Chọn Cho Phòng</strong>
+                        </div>`;
+                    $('#error').html(html);
+                    setTimeout(function () {
+                        $('.alert-danger').fadeTo(500, 0).slideUp(500, function () {
+                            $(this).remove();
+                        });
+                    },2000)
+                }
+            }).fail(function (error) {
+                console.log(error);
+                if(error.status == 400){
+                    alert("Vui lòng chọn phim và phòng")
+                }
+            })
+        })
+
+
+
+    })
+</script>
+

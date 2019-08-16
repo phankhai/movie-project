@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+<head>
+    <meta charset="UTF-8">
+    <title>Cineplex Update</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <h3 class="mb-4 text-center">Cập Nhật Cụm Rạp</h3>
+    <form method="POST" th:action="@{/cineplex/update}" th:object="${cineplexupdate}">
+        <div class="row">
+            <div class="col-md-6 m-auto">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="form-group">
+                    <label>Tên Cineplex</label>
+                    <input type="text" th:field="*{name}" class="form-control" placeholder="name" />
+                    <span th:each="err : ${#fields.errors('name')}" th:text="${err}" style="color:red"></span>
+                </div>
+                <div class="form-group">
+                    <label>Logo</label>
+                    <input type="text" th:field="*{logo}" class="form-control" placeholder="logo" />
+                    <span th:each="err : ${#fields.errors('logo')}" th:text="${err}" style="color:red"></span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Lưu lại</button>
+                    <a class="btn btn-secondary" th:href="@{/cineplex}">Quay lại</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+</body>
+</html>

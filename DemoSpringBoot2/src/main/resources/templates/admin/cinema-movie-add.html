@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+<head>
+    <meta charset="UTF-8">
+    <title>Rạp Và Phim</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <span id="admin-content"></span>
+    <span id="error"></span>
+    <h3 class="mb-3 text-center">Thêm Phim Cho Rạp</h3>
+    <form method="post" th:action="${('')}" id="submit-cinema-movie">
+        <div style="margin-left: 8.333333%;"><button type="submit" class="btn btn-success btn-md">Lưu Lại</button></div>
+        <div class="row">
+            <div class="col-sm-5 offset-1">
+                <div class="form-group">
+                    <label style="color: red;font-weight: bold">Chọn Phim Muốn Thêm: </label><br/>
+                    <table class="table table-bordered">
+                        <thead class="table-info">
+                            <tr>
+                                <th>Hình</th>
+                                <th>Tên Phim</th>
+                                <th><input type="checkbox" id="checkAll"/></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="film : ${films}" class="checkphim">
+                                <td><img th:src="${film.image}" alt="" width="60" height="60"></td>
+                                <td><strong th:text="${film.name}"></strong></td>
+                                <td><input name="movie" type="checkbox" class="checkbox" th:value="${film.id}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <label style="color: red;font-weight: bold">Chọn Rạp Muốn Thêm: </label><br/>
+                <table class="table table-bordered">
+                    <thead class="table-info">
+                        <tr>
+                            <th>Hình</th>
+                            <th>Tên Rạp</th>
+                            <th><input type="checkbox" id="checkAllRap"/></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="cinema : ${cinemas}" class="checkrap">
+                            <td><img th:src="${cinema.image}" alt="" width="50" height="50"></td>
+                            <td><strong th:text="${cinema.name}"></strong></td>
+                            <td><input name="movie" type="checkbox" class="checkboxrap" th:value="${cinema.id}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+<head>
+    <meta charset="UTF-8" />
+    <title>User</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <h3 class="mb-3">Danh sách thành viên</h3>
+    <div class="row">
+        <div class="col-md-8">
+            <a th:href="@{/admin/user/add}" class="btn btn-primary">Thêm mới</a>
+            <div th:if="${success}"
+                 class="row alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert"
+                        aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <span th:text="${success}"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Tìm kiếm..." id="search-user">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2"><i class="fa fa-search"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-bordered table-hover mt-3">
+        <thead>
+        <tr>
+            <th>STT</th>
+            <th>Họ Tên</th>
+            <th>Email</th>
+            <th>Số ĐT</th>
+            <th>Quyền</th>
+            <th>#</th>
+        </tr>
+        </thead>
+        <tbody id="danhsachuser">
+            <tr th:if="${users == null}">
+                <td colspan="6">Không có user nào !</td>
+            </tr>
+            <th:block th:if="${users != null}">
+                <tr th:each="emp : ${users}">
+                    <td th:text="${empStat.index + 1}"></td>
+                    <td th:text="${emp.fullname}"></td>
+                    <td th:text="${emp.email}"></td>
+                    <td th:text="${emp.phone}"></td>
+                    <td th:text="${emp.getRole().name}"></td>
+                    <td>
+                        <a th:href="@{/admin/user/update/{id}(id=${emp.id})}" class="btn btn-sm btn-info">
+                            <i class="fa fa-pencil-square-o"></i>
+                        </a>
+                        <a href="#" class="btn btn-sm btn-danger">
+                            <i class="fa fa-trash-o"></i>
+                        </a>
+                    </td>
+                </tr>
+            </th:block>
+
+        </tbody>
+    </table>
+
+</div>
+
+
+</body>
+</html>
